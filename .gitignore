@@ -1,0 +1,14 @@
+# MPA-AB2 Lecture2 image restoration
+
+*.mat
+*.jpg
+*.jpeg
+*.png
+*.npy
+*.asv
+*.db
+*.npz
+*.zip
+
+.idea
+.ipynb_checkpoints
