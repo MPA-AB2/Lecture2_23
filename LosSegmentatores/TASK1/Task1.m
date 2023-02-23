@@ -1,7 +1,7 @@
 % AB2 Lecture2 - Task 1
 clear all, close all,clc
 
-%% loading image and segmented blurred object
+%% loading image and segmented blurred object (segmented using Image Segmenter)
 blurredIm = imread('image_blurred.png');
 load("segmentBlur.mat","BW");
 
@@ -37,6 +37,7 @@ for i = 1:3
 end
 estimatedPSF = PSF;
 save('V:\MPA-AB2\Lecture2_23\LosSegmentatores\TASK1\results.mat',"deblurredImage","estimatedPSF")
+estimatedPSF = uint8(255.*PSF./max(PSF,[],"all"));
 imwrite(deblurredImage,'V:\MPA-AB2\Lecture2_23\LosSegmentatores\TASK1\Task1Result.tif')
 imwrite(estimatedPSF,'V:\MPA-AB2\Lecture2_23\LosSegmentatores\TASK1\Task1Result.tif','WriteMode','append')
 
