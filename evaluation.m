@@ -1,1 +1,1 @@
-[NRMSE,RMSE,PSNR] = evaluateMotion('C:\Users\ddoko\Lecture2_23\Cannyho_partaci\Task1\result.mat')
+[NRMSE,RMSE,PSNR] = evaluateMotion('C:\Users\ddoko\Lecture2_23\Cannyho_partaci\Task2\task_res.mat')

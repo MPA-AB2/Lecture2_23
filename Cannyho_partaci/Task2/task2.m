@@ -5,8 +5,7 @@ PSF2 = zeros(477,477);
 PSF2(round(477/2):round(477/2)+10,round(477/2)) = PSF;
 [j psfr] = deconvblind(maskedImage,PSF2);
 %%
-j_gauss = imgaussfilt(j,4);
-j = imnlmfilt(j_gauss);
+j = imnlmfilt(j);
 %%
 [a b] = find(BW==1);
 for i = 1:length(a)
@@ -15,15 +14,12 @@ for i = 1:length(a)
     obr(a(i),b(i),3) = j(a(i),b(i),3);
 end
 %%
-recon = deconvlucy(obr,psfr);
+obr = imgaussfilt(j,4);
 %%
 figure(1)
-subplot 131
-imshow(imread('sample.png'))
-title('orig')
-subplot 132
-imshow(obr)
-title('1st')
-subplot 133
-imshow(recon)
-title('2nd')
+subplot 121
+imshow(deblurredImage)
+subplot 122
+imshow(estimatedPSF,[])
+
+
