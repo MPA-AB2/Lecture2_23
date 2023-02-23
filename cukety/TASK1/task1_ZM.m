@@ -1,1 +1,0 @@
-img = imread('image_blurred.png');
