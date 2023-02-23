@@ -40,9 +40,9 @@ title("Reconstructed")
 %% Segmentation
 figure
 imshow(image);
-polyg = impoly;
-BW1 = createMask(polyg);
-
+% polyg = impoly;
+% BW1 = createMask(polyg);
+load('mask.mat')
 %%
 kernel_size = 45;
 mu = [0 0]; Sigma = [.8 .2; .2 .8];
@@ -54,17 +54,34 @@ Gau = Gau/sum(sum(Gau));
 
 BW = conv2(BW1,Gau, 'same');
 BW = cat(3, BW, BW, BW);
+%% Filtration of background
+
+imR = image(:,:,1);
+imG = image(:,:,2);
+imB = image(:,:,3);
+
+obr_vyfilR = wiener2(imR,[6 6]);
+obr_vyfilG = wiener2(imG,[6 6]);
+obr_vyfilB = wiener2(imB,[6 6]);
+
+im_filt = cat(3,obr_vyfilR,obr_vyfilG,obr_vyfilB);
 %% Augumentation
 
 im_blurred = im2double(filtered) .* BW;
-im_sharp = im2double(image) .* (1-BW);
+
+im_sharp = im2double(im_filt) .* (1-BW);
 
 final_image = im_blurred + im_sharp;
 
+final_image = im2uint8(final_image);
 
-figure
-subplot 221; imshow(image); title('Original image');
-subplot 222; imshow(BW); title ('Mask used for motion blur');
-subplot 223; imshow(im_blurred); title('Filtered motion blur');
-subplot 224; imshow(final_image); title('Final image')
+deblurredImage = final_image;
+estimatedPSF = imp_char;
+
+figure;imshow(final_image); title('Final image')
+% figure
+% subplot 223; imshow(im_blurred); title('Filtered motion blur');
+% subplot 222; imshow(BW); title ('Mask used for motion blur');
+% subplot 223; imshow(image); title('Original image');
+% subplot 224; imshow(final_image); title('Final image')
 
