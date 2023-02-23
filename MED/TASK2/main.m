@@ -46,3 +46,7 @@ final_image = im2uint8(final_image);
 
 deblurredImage = final_image;
 estimatedPSF = imresize(psfr,[477,477],'Method','bilinear');
+
+figure;sgtitle('NRMSE = 0.6833; RMSEImage = 7.1373; PSNR = 23.5103');
+subplot 121;imshow(final_image);title('Final Image');
+subplot 122;imshow(estimatedPSF,[]);title('PSF');

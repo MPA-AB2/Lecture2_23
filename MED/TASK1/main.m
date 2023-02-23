@@ -78,9 +78,8 @@ final_image = im2uint8(final_image);
 deblurredImage = final_image;
 estimatedPSF = imp_char_pom;
 
-figure;imshow(final_image); title('Final image')
-% figure
-% subplot 223; imshow(im_blurred); title('Filtered motion blur');
-% subplot 222; imshow(BW); title ('Mask used for motion blur');
-% subplot 223; imshow(image); title('Original image');
-% subplot 224; imshow(final_image); title('Final image')
+% figure;imshow(final_image); title('Final image')
+
+figure;sgtitle('NRMSE = 0.00032096; RMSEImage = 5.5550; PSNR = 25.1861');
+subplot 121;imshow(final_image);title('Final Image');
+subplot 122;imshow(estimatedPSF,[]);title('PSF');
