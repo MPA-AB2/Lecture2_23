@@ -18,7 +18,7 @@ load("segmentBlur.mat","BW");
 % PSF = fspecial('motion', LEN, THETA);
 PSF = zeros(477);
 % PSF(239-40:239+40,239) = fspecial('gaussian',[81,1],30); 
-PSF(239-45:239+45,239) = fspecial('motion', 91, 90);
+PSF(239-40:239+40,239) = fspecial('motion', 81, 90);
 % PSF(238-100:238+100,238) = double(blurredIm(2731:2731+200,3757,1))./sum(double(blurredIm(2731:2731+200,3757,1)));
 % PSF(:,238) = 1/477;
 
@@ -36,7 +36,7 @@ PSF(239-45:239+45,239) = fspecial('motion', 91, 90);
 noiseVar = var(rgb2gray(im2double(blurredIm(1608:1608+100,1242:1242+100,:))),0,'all','omitnan');
 totalVar = var(rgb2gray(im2double(blurredIm)),0,'all','omitnan');
 nsr = noiseVar/totalVar;
-reconImW = deconvwnr(blurredIm, PSF, 0.1);
+reconImW = deconvwnr(blurredIm, PSF, 0.02);
 % reconImL = deconvlucy(blurredIm,PSF);
 % reconImR = deconvreg(blurredIm,PSF,noiseVar);
 % reconImB = deconvblind(blurredIm,ones(size(PSF)),10,0.01);
@@ -49,7 +49,9 @@ imshowpair(blurredIm,reconImW,'montage')
 deblurredImage = blurredIm;
 
 deblurredImage(BW) = reconImW(BW);
-deblurredImage = medfilt3(deblurredImage,[15 15 15]);
+for i = 1:3
+    deblurredImage(:,:,i) = medfilt2(deblurredImage(:,:,i),[15 15]);
+end
 estimatedPSF = PSF;
 save('V:\MPA-AB2\Lecture2_23\LosSegmentatores\TASK1\results.mat',"deblurredImage","estimatedPSF")
 %% estimate results
