@@ -1,32 +1,21 @@
 obr = imread('image_blurred.png');
-% gray = rgb2gray(obr);
-LEN = 20; THETA = 90;
+LEN = 100; THETA = 90;
 PSF = fspecial('motion', LEN, THETA);
 estimatedPSF = zeros(477,477);
 estimatedPSF(round(477/2):round(477/2)+LEN,round(477/2)) = PSF;
-% PSF2(PSF2>0) = 1;
-% estimatedPSF = imrotate(estimatedPSF,135);
 
-% % 
-% segmented = imcrop(obr, [1000 5000 1000 5200]);
-% segmented = load("segmented2.mat");
-% segmented = segmented.segmented2;
-x1 = 1;
-y1 = 700;
-x2 = 5184;
-y2 = 2706;
-segmented = imcrop(obr, [x1,y1,x2,y2]);imshow(segmented)
-
-filtered = deconvlucy(segmented,estimatedPSF);
-%imshow(filtered)
+filtered = deconvlucy(maskedImage,estimatedPSF);
 filtered_gauss = imgaussfilt(filtered,4);
+filtered_nlm = imnlmfilt(filtered_gauss);
 
-final = [obr(1:y1,:,:);filtered_gauss;obr(3408:end,:,:)];
-filtered_nlm = imnlmfilt(final);
+[a b] = find(BW==1);
+for i = 1:length(a)
+    obr(a(i),b(i),1) = filtered_nlm(a(i),b(i),1);
+    obr(a(i),b(i),2) = filtered_nlm(a(i),b(i),2);
+    obr(a(i),b(i),3) = filtered_nlm(a(i),b(i),3);
+end
 
-deblurredImage = imgaussfilt(filtered_nlm,4);
-imshow(final)
-
+deblurredImage = imgaussfilt(obr,4);
 
 figure
 subplot 211
