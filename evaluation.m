@@ -1,0 +1,1 @@
+[NRMSE,RMSE,PSNR] = evaluateMotion('V:\Lecture2_23\Cannyho_partaci\Task1\result.mat')
